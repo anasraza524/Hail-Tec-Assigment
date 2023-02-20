@@ -93,8 +93,10 @@ try {
 const loginResult = await loginSchema.validateAsync(req.body)
 const verifyLogin = await userModel.findOne(
     { email: loginResult.email },
-    "firstName lastName email password isAdmin")
+    "firstName lastName email password isAdmin isDeleted")
    
+
+    if(verifyLogin.isDeleted === true) throw new Error(" Your Account is Banned")
 if(!verifyLogin) throw new Error("Invalid Email")
 
     const isMatchedLoginPassword = await varifyHash(loginResult.password, verifyLogin.password)
@@ -452,114 +454,7 @@ if(!body.password) throw new Error("New Password Not Found")
 
 })
 
-router.put('/updateProfile', uploadMiddleware.any()
-,  async (req, res) => {
-    
-   
 
-   try {
-    const token = jwt.decode(req.cookies.Token)
-    const body = req.body;
-    console.log(body,"4545")
-    console.log(token,"45")
-
-    // this is The we are sending
-    if(req.fileValidationError){
-        res.status(400).send({message:"Only .png, .jpg and .jpeg format allowed!"})
-        return
-    }
-
-if(req.files[0].mimetype === "image/png"||
-req.files[0].mimetype === "image/jpeg"||
-req.files[0].mimetype === "image/jpg" ) console.log(" accept png, jpg, jpeg")
-else{
-    fs.unlink(req.files[0].path, (err) => {
-        if (err) {
-          console.error(err)
-          return
-        }
-        else{
-          console.log("Delete sus")
-        }
-      })
-    throw new Error("only accept png, jpg, jpeg")
-}
-
-if(req.files[0].size >= 1000000)throw new Error("only accept 1 Mb Image")
-// const UploadInStorageBucket = await bucket.upload(    req.files[0].path,
-//     {
-//         destination: `tweetPictures/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
-//     })
-//     if(!UploadInStorageBucket) throw new Error("Server Error")
-    
-// console.log('UploadInStorageBucket',UploadInStorageBucket)
-bucket.upload(
-    req.files[0].path,
-    {
-        destination: `SaylaniHacthon/${req.files[0].filename}`, // give destination name if you want to give a certain name to file in bucket, include date to make name unique otherwise it will replace previous file with the same name
-    },
-    function (err, file, apiResponse) {
-        if (!err) {
-
-            file.getSignedUrl({
-                action: 'read',
-                expires: '03-09-2999'
-            }).then((urlData, err) => {
-                if (!err) {
-
-
-fs.unlink(req.files[0].path, (err) => {
-  if (err) {
-    console.error(err,"dd")
-    return
-  }
-  else{
-    console.log("Delete sus")
-  }
-})
-
-
-userModel.findByIdAndUpdate(token._id,{
-        firstName: body.firstName,
-        
-        profileImage:urlData[0],
-    },
-    { new: true }
-      
-                    ,
-                        (err, saved) => {
-                            if (!err) {
-                                console.log("saved: ", saved);
-
-                                res.send({
-                                    message: "Product added successfully"
-                                });
-                            } else {
-                                console.log("err: ", err);
-                                res.status(500).send({
-                                    message: "server error"
-                                })
-                            }
-                        })
-                }
-            })
-        } else {
-            console.log("err: ", err)
-            res.status(500).send({message:err});
-        }
-    });
-
-
-
-} catch (error) {
-
-    res.status(500).send({
-        message: error.message
-    })
-    console.error(error.message);
-
-   }
-})
     
        
     

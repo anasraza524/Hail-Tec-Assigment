@@ -16,55 +16,40 @@ const HomeAdmin = () => {
   const [eof, setEof] = useState(false)
 
  const [homeProductData, setHomeProductData] = useState([])
-const [loadProduct, setLoadProduct] = useState(false)
+const [loadUser, setLoadUser] = useState(false)
 
 const [page, setPage] = useState(0)
 const [CurrentPage, setCurrentPage] = useState(1)
-  // const getAllProducts = async () => {
-  //   if (eof) return;
-  //   dispatch({
-  //     type:"LOAD_SKELETON",
-  //     payload:true
-  //   })
-  //   try {
+
+
+
+  const getAllUsers = async () => {
+
+    try {
     
-  //     const response = await axios.get(`${state.baseUrl}/productFeed?page=${CurrentPage}`,{
+      const response = await axios.get(`${state.baseUrl}/userFeed?page=${CurrentPage}`,{
            
-  //       withCredentials: true,
+        withCredentials: true,
         
      
-  //   });
+    });
   
    
-  //   console.log("hjhj",response)
-  //   setPage(response.data)
-  //   setHomeProductData(response.data.data)
-   
+    console.log("hjanas",response)
+    setPage(response.data)
+    setHomeProductData(response.data.data)
+    // setLoadUser(!loadUser)
+    } catch (error) {
 
-  //     dispatch({
-  //       type:"LOAD_SKELETON",
-  //       payload:false
-  //     })
-  //   } catch (error) {
-  //     dispatch({
-  //       type:"LOAD_SKELETON",
-  //       payload:false
-  //     })
-  //   //   if(error){
-  //   //     ClickOpenError()
-  //   //   }else{
-  //   //   handleCloseError()
-  //   //  }
-  //    console.log(error,"error")
+     console.log(error,"error")
 
-  //   }
-  // }
-  // useEffect(() => {
-  //   getAllProducts()
+    }
+  }
+
+  useEffect(() => {
+    getAllUsers()
   
-  // }, [loadProduct])
-
-
+  }, [loadUser])
   return (
     <div style={{marginTop:"10px",padding:"1em"}}>
 <Typography variant="h4" sx={{ mb: 5 }}>
@@ -72,6 +57,9 @@ const [CurrentPage, setCurrentPage] = useState(1)
         </Typography>
 <Grid container spacing={3} sx={{p:3,display:"flex",}}>
 <Grid item xs={12}  sm={6} md={3} >
+            <AllCardDetail title="Total User" total={homeProductData.length}  />
+          </Grid>
+          <Grid item xs={12}  sm={6} md={3} >
             <AllCardDetail title="Weekly Sales" total={714000}  />
           </Grid>
           <Grid item xs={12}  sm={6} md={3} >
@@ -85,13 +73,44 @@ const [CurrentPage, setCurrentPage] = useState(1)
 <Typography variant="h4" sx={{ mb: 5 }}>
           All Users
         </Typography>
-<UserCard
-name={"anas"}
-email={"asnas@.com"}
-age={12}
-status={"active"}
+        <Paper evaltion={5}>
+    <Box sx={{display:"flex" ,justifyContent:"space-between",
+    alignItems:"center",p:1,m:2}}>
+    <Typography sx={{fontWeight:"bold"}}>
+    Name
+    </Typography>
+    <Typography sx={{fontWeight:"bold",display:{xs:"none",lg:"block",sm:"block"}}}>
+        Email
+    </Typography>
+    <Typography sx={{fontWeight:"bold",display:{xs:"none",lg:"block",sm:"block"}}}>
+        Age
+    </Typography>
+    <Typography sx={{fontWeight:"bold"}}>
+Status
+    </Typography>
+    <Typography sx={{fontWeight:"bold"}}>
+    Change Status
+    </Typography>
 
-/>
+    <Typography sx={{fontWeight:"bold"}}>
+        Submit
+    </Typography>
+    </Box></Paper>
+        {(!homeProductData)?null:
+       
+       homeProductData.map((eachUser,index) =>(
+       <UserCard
+       
+       key={index}
+       id={eachUser?._id}
+name={eachUser?.fullName}
+email={eachUser?.email}
+age={eachUser?.age}
+status={(eachUser?.isDeleted === false)? "Active": "Banned"}
+color={eachUser?.isAdmin}
+
+/>))
+}
 
       {/* <Grid 
       sx={{display:{lg:"flex",sx:"flex",xs:"block"},flexWrap:"wrap",m:{xs:1,sm:3,lg:3},
