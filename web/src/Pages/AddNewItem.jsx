@@ -178,7 +178,7 @@ onChange={(e) => { setProdName(e.target.value) }}
 
 
 
-        <Button fullWidth  type="submit" variant="contained">Add Product </Button>
+        <Button fullWidth  type="submit" variant="contained">Add Task </Button>
 
         {(!error) ? "" : <p style={{ paddingLeft: "35px", color: "red", display: "flex" }}>
           {/* <ErrorIcon/> */}
