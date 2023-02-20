@@ -1,0 +1,10 @@
+
+EMAIL=""
+EMAIL_PASSWORD=""
+service=""
+host=""
+SECRET=""
+mongodbURI=""
+SERVICE_ACCOUNT={}
+databaseURL=""
+bucketLink=""
