@@ -97,8 +97,8 @@ router.get('/tasks',async (req, res) => {
         const userId = new mongoose.Types.ObjectId(req.body.token._id);
         console.log(userId)
         
-        const verifyTasks=  await tasksModel.find()
-    console.log(verifyTasks,"45")
+        const verifyTasks=  await tasksModel.find().sort({"_id":-1})
+    // console.log(verifyTasks,"45")
     if(!verifyTasks) throw new Error("server error")
     const now = moment();
    let diff = 0
@@ -111,8 +111,6 @@ router.get('/tasks',async (req, res) => {
              { isExpired : true },
              { new: true }).exec()
           
-        }else{
-            console.log("ok")
         }
        
 });

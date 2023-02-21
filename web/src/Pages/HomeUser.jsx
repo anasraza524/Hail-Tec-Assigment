@@ -55,7 +55,7 @@ const HomeUser = () => {
 <Typography variant="h4" sx={{ mb: 5 }}>
           All Tasks
         </Typography>
-
+        <Grid container spacing={3} sx={{p:3,display:"flex",flexWrap:"wrap"}}>
          {(!homeProductData)?null:
        
         homeProductData.map((eachTask,index) =>(
@@ -70,7 +70,8 @@ const HomeUser = () => {
       }
 
       />))}
-<OrderCard/>
+      </Grid>
+
 
     </div>
   )

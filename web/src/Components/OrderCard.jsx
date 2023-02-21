@@ -135,11 +135,11 @@ const OrderCard = ({ title,
         
           
         <Box sx={{display:'flex',justifyContent:"space-between"}}>
-            <Typography gutterBottom variant="h7" component="div">
+            <Typography color={(!isExpired)?"black":"red"} gutterBottom variant="h7" component="div">
             Due Date
               
             </Typography>
-            <Typography  gutterBottom variant="h7" component="div">
+            <Typography color={(!isExpired)?"black":"red"} gutterBottom variant="h7" component="div">
           {dueDate}
               
             </Typography>

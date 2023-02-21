@@ -131,7 +131,7 @@ const [loadProduct, setLoadProduct] = useState(false)
              <ListItemText primary="Home" />
            </ListItemButton>
          </ListItem></LinkPage>
-         <LinkPage
+         {/* <LinkPage
                   onClick={()=>{setIsOpen(false)}}
                  to="/AddToProduct">
          <ListItem sx={{ color:"white" }}
@@ -154,7 +154,7 @@ const [loadProduct, setLoadProduct] = useState(false)
              </ListItemIcon>
              <ListItemText primary="Order Detail" />
            </ListItemButton>
-         </ListItem></LinkPage>
+         </ListItem></LinkPage> */}
                  </div>:null}
                 
          {(state.user.isAdmin===true)?
@@ -217,18 +217,8 @@ const [loadProduct, setLoadProduct] = useState(false)
          <Box sx={{ fontWeight:'20px', display:{xs:'none',lg:'flex',sm:"flex"},alignItems:"flex-end" ,justifyContent:"flex-end"}}>
 {(state.user.isAdmin===false)?
 <div>
-<LinkPage
-className="hover-underline-animation"
- 
-   to="/" ><TabPage label="Home" /></LinkPage>
-<LinkPage
-className="hover-underline-animation"
- 
-   to="/AddToProduct" ><TabPage label="Cart" /></LinkPage>
-   <LinkPage
-className="hover-underline-animation"
- 
-   to="/UserOrderDetail" ><TabPage label="Order Detail" /></LinkPage>
+
+
 </div>
 
 :null}
