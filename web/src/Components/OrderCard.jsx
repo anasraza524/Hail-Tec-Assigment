@@ -9,26 +9,73 @@ import Select from '@mui/material/Select';
 import axios from 'axios';
 import InputLabel from '@mui/material/InputLabel';
 import { GlobalContext } from '../Context/Context';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
 const OrderCard = ({ title,
   description,
   status,
   dueDate,id
 }) => {
     const [age, setAge] = React.useState('');
-console.log(age,id)
+// console.log(age,id)
 
     let { state, dispatch } = useContext(GlobalContext);
     const [loadProduct, setLoadProduct] = useState(false)
  
- 
+    const deleteTasks = async () => {
+
+      try {
+        const response = await axios.delete(`${state.baseUrl}/task/${id}`,{
+           
+          withCredentials: true,
+          
+       
+      })
+        console.log("response: ", response.data);
+       
+  
+  
+      } catch (error) {
+      
+        console.log("error in getting all tasks", error);
+      }
+    }
+    
     const  editProduct = async(e)=> { 
     
         
        
     
           try {
-            const response = await axios.put(`${state.baseUrl}/placeOrder/${id}`,{
+            const response = await axios.put(`${state.baseUrl}/updateStatus/${id}`,{
               status:age,
+             
+            },{withCredentials:true})
+           
+
+      
+       console.log(response)
+           
+        
+            
+      
+          } catch (error) {
+       
+            console.log("error in Updating all products", error);
+          }
+        }
+
+        const  editTasks = async(e)=> { 
+    
+        
+       
+    
+          try {
+            const response = await axios.put(`${state.baseUrl}/task/${id}`,{
+              // title:,
+              // description:,
+              // dueDate:,
              
             },{withCredentials:true})
            
@@ -44,6 +91,8 @@ console.log(age,id)
             console.log("error in Updating all products", error);
           }
         }
+
+
         const handleChange = (event) => {
             setAge(event.target.value);
            
@@ -52,8 +101,10 @@ console.log(age,id)
     <div style={{flex:"1 1 100px"}}>
 <Box sx={{display:"flex",flexDirection:"column", width: '100%', maxWidth:{ lg:350,xs:300,sm:350},
     bgcolor: 'white',p:1,borderRadius:"10px",color:"black",m:"1em"}}>
-
-    
+<Box sx={{display:"flex",justifyContent:"right"}}>
+<EditIcon onClick={editTasks} />
+<DeleteIcon onClick={deleteTasks}/> 
+</Box>
       <Typography  gutterBottom variant="h5" component="div">
           {title}
               

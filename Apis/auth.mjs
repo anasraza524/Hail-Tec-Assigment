@@ -3,7 +3,7 @@ dotenv.config()
 import moment from 'moment'
 import multer from 'multer'
 import express from 'express';
-import bucket from "../FirebaseAdmin/index.mjs";
+
 import fs from 'fs';
 import {signupSchema,loginSchema,resetPasswordSchema,forgetPasswordSchema}from '../helper/validation_schema.mjs'
 import { nanoid, customAlphabet } from 'nanoid'
@@ -19,32 +19,7 @@ import cookieParser from 'cookie-parser';
 
 const SECRET = process.env.SECRET;
 
-const storageConfig = multer.diskStorage({
-    destination: '/tmp/uploads/',
- // destination: './uploads/',
-     filename: function (req, file, cb) {
- 
-  console.log("mul-file: ", file);
-         cb(null, `${new Date().getTime()}-${file.originalname}`)
-     }
- })
- 
- let uploadMiddleware = multer({
-      storage: storageConfig ,
-     
-      fileFilter: (req, file, cb) => {
-       
-         if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-           cb(null, true);
-         } else {
-             // this is requesting in uploadMiddleware body and you can send error
-             req.fileValidationError = "Forbidden extension";
-                return cb(null, false, req.fileValidationError);
-         //   return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-         }
-       }
- 
-      })
+
 const router = express.Router()
 
 router.post("/signup",async (req, res) => {

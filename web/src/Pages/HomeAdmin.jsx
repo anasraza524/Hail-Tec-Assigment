@@ -16,13 +16,35 @@ const HomeAdmin = () => {
   const [eof, setEof] = useState(false)
 
  const [homeProductData, setHomeProductData] = useState([])
+ const [infoData, setInfoData] = useState(null)
 const [loadUser, setLoadUser] = useState(false)
 
 const [page, setPage] = useState(0)
 const [CurrentPage, setCurrentPage] = useState(1)
 
 
+const getTasksInfo = async () => {
 
+  try {
+  
+    const response = await axios.get(`${state.baseUrl}/tasksInfo`,{
+         
+      withCredentials: true,
+      
+   
+  });
+
+  setInfoData(response.data)
+  console.log("tasksInfo",response)
+
+
+  // setLoadUser(!loadUser)
+  } catch (error) {
+
+   console.log(error,"error")
+
+  }
+}
   const getAllUsers = async () => {
 
     try {
@@ -47,6 +69,7 @@ const [CurrentPage, setCurrentPage] = useState(1)
   }
 
   useEffect(() => {
+    getTasksInfo()
     getAllUsers()
   
   }, [loadUser])
@@ -57,16 +80,16 @@ const [CurrentPage, setCurrentPage] = useState(1)
         </Typography>
 <Grid container spacing={3} sx={{p:3,display:"flex",}}>
 <Grid item xs={12}  sm={6} md={3} >
-            <AllCardDetail title="Total User" total={homeProductData.length}  />
+            <AllCardDetail title="Total User" total={infoData?.TotalUser}  />
           </Grid>
           <Grid item xs={12}  sm={6} md={3} >
-            <AllCardDetail title="Weekly Sales" total={714000}  />
+            <AllCardDetail title="Total Tasks" total={infoData?.TotalTasks}  />
           </Grid>
           <Grid item xs={12}  sm={6} md={3} >
-            <AllCardDetail title="Weekly Sales" total={714000}  />
+            <AllCardDetail title="Total Tasks Pending" total={infoData?.TotalTasksPending}  />
           </Grid>
           <Grid item xs={12}  sm={6} md={3} >
-            <AllCardDetail title="Weekly Sales" total={714000}  />
+            <AllCardDetail title="Total Tasks Completed" total={infoData?.TotalTasksComplete}  />
           </Grid>
           </Grid>
 <Divider sx={{color:"white"}}/>

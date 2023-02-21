@@ -37,7 +37,7 @@ const tasksSchema = new mongoose.Schema({
     description: { type: String },
     status: { type: String },
     dueDate:{ type: String },
-    currentDate:{ type: String },
+    isExpired :{ type: Boolean, default: false },
     createdOn: { type: Date, default: Date.now },
 });
 

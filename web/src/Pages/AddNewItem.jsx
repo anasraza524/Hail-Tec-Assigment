@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext,useEffect } from 'react'
 import {
   Typography, Card, CardContent, CircularProgress,
   TextField, Button, Paper, Chip, Box, Grid,
@@ -26,58 +26,63 @@ const AddNewItem = () => {
   const handleChange = (event) => {
     setAge(event.target.value);
   };
-  let formData = new FormData();
-  console.log(age, file, prodPriceUnit, prodDec, prodPrice, prodName)
-  formData.append("productImage", file);
-  formData.append("name", prodName);
-  formData.append("price", prodPrice);
-  formData.append("description", prodDec);
-  formData.append("productType", age)
-  formData.append("priceUnit", prodPriceUnit)
 
+
+  
   const submitHandler = async (e) => {
     e.preventDefault();
-    dispatch({
-      type: "LOAD_SKELETON",
-      payload: true
-    })
+  try {
+    const data = new FormData(e.currentTarget);
+    console.log(data.get('title'),data.get('description'),data.get('dueDate'))
+    let response = await axios.post(`${state.baseUrl}/tasks`, {
+      title:data.get('title') ,
+      description:data.get('description') ,
+       dueDate:data.get('dueDate'),
+    },{withCredentials:true})
+    console.log(response)
+    setLoadUser(!loadUser)
+  e.target.reset()
+  } catch (error) {
+    console.log("Tasks Error: ", error);
 
-    setSuccess('')
-    setError('')
-
-    axios({
-      method: 'post',
-      url: `${state.baseUrl}/product`,
-      data: formData,
-      headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true
-    })
-      .then(res => {
-        // setLoadProduct(!loadProduct)
-        console.log(`upload Success` + res.data);
-        setSuccess(res.message
-        )
-        dispatch({
-          type: "LOAD_SKELETON",
-          payload: false
-        })
-        e.target.reset()
-        setFile(null)
-
-        setPreview(null)
-      })
-      .catch(err => {
-        dispatch({
-          type: "LOAD_SKELETON",
-          payload: false
-        })
-
-        console.log("error: ", err);
-        setError(err.response.data.message)
-
-      })
+  }
   };
 
+  const [homeProductData, setHomeProductData] = useState([])
+  const [loadUser, setLoadUser] = useState(false)
+  
+  const [page, setPage] = useState(0)
+  const [CurrentPage, setCurrentPage] = useState(1)
+  
+  
+  
+    const getAllUsers = async () => {
+  
+      try {
+      
+        const response = await axios.get(`${state.baseUrl}/taskFeed?page=${CurrentPage}`,{
+             
+          withCredentials: true,
+          
+       
+      });
+    
+     
+      console.log("hjanas",response)
+      setPage(response.data)
+      setHomeProductData(response.data.data)
+      
+      } catch (error) {
+  
+       console.log(error,"error")
+  
+      }
+    }
+  
+    useEffect(() => {
+      getAllUsers()
+    
+    }, [loadUser])
   return (
     <div
    >
@@ -90,46 +95,9 @@ alignItems:"center"}}>
       ,marginBottom: "3em",marginTop:"2em" }} onSubmit={submitHandler} >
 
 
-
-       
-{/* <label htmlFor="select-image"><Box
-
-sx={{
-  display: "flex", justifyContent: "center",
-  m: 3, pl: 3, pr: 5, width: { lg: "500px", sm: "500px", xs: "310px" }, backgroundColor: "gray"
-  , borderRadius: "15px"
-}}
->
-
-{(preview) ?
-  <img style={{ margin: "5px 0px 5px 22px " }} src={preview} height="255px" width="280px" alt="" srcset="" />
-
-:
-<CameraAltIcon sx={{ fontSize: "10em", m: 8 }} />
-}
-</Box></label> */}
 <Typography variant="h4" sx={{ mb: 5 }}>
           Add Task
         </Typography>
-        <TextField
-        
-          sx={{ pl: 5, pr: 5 }}
-          size="small"
-          type="file"
-          id="select-image"
-
-          name='select-image'
-          onChange={(e) => {
-            setFile(e.currentTarget.files[0])
-
-            let url = URL.createObjectURL(e.currentTarget.files[0])
-
-            console.log("url: ", url);
-
-            setPreview(url)
-          }}
-          style={{ display: 'none' }}
-        />
 
         
         <br /><br />
@@ -138,8 +106,8 @@ sx={{
 
 sx={{ pl: 3, pr: 5, width: { lg: "550px", sm: "550px", xs: "370px" } }}
 size="medium"
-type="text" placeholder="Enter your Item name" required
-onChange={(e) => { setProdName(e.target.value) }}
+type="text" placeholder="Enter your Item Title" required
+id='title' name='title'
 >
 </TextField><br /><br />
 
@@ -148,11 +116,11 @@ onChange={(e) => { setProdName(e.target.value) }}
  
         <TextField
           sx={{ pl: 3, pr: 5, width: { lg: "550px", sm: "550px", xs: "370px" } }}
-          id="outlined-multiline-static"
+          id='description' name='description'
           placeholder="Enter your Item Description"
           multiline
           rows={4}
-          onChange={(e) => { setProdDec(e.target.value) }}
+         
         />
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography
@@ -162,8 +130,7 @@ onChange={(e) => { setProdName(e.target.value) }}
           </Typography>
 
           <TextField
-
-            id="filled-size-small"
+id='dueDate' name='dueDate'
             defaultValue="pkr"
             variant="filled"
             size="small"
@@ -195,15 +162,21 @@ onChange={(e) => { setProdName(e.target.value) }}
       <Typography variant="h4" sx={{ m: 5 }}>
           All Tasks
         </Typography>
-
-        <Grid container spacing={3} sx={{p:3,display:"flex",flexWrap:"wrap"}}>
-
+     
+        <Grid
+        
+        container spacing={3} sx={{p:3,display:"flex",flexWrap:"wrap"}}>
+   {(!homeProductData)?null:
+       
+       homeProductData.map((eachTask,index) =>(
       <OrderCard
-      title={"asdsd"}
-      description={"asssssssssss dfdfdvvvvvvvvvvvvvvvvvvvvvvjjjjjjjjj jjjjjjjj jjj jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjvvvvvvvvvvvvvvvvf"}
-      status={"pending"}
-      dueDate={"12-1-23"}
-      />
+      key={index}
+      id={eachTask?._id}
+      title={eachTask?.title}
+      description={eachTask?.description}
+      status={eachTask?.status}
+      dueDate={eachTask?.dueDate}
+      />))}
  
 </Grid>
     </div>
