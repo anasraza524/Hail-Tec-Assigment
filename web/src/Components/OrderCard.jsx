@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 const OrderCard = ({ title,
   description,
   status,
-  dueDate,id
+  dueDate,id,isExpired
 }) => {
     const [age, setAge] = React.useState('');
 // console.log(age,id)
@@ -43,10 +43,7 @@ const OrderCard = ({ title,
     }
     
     const  editProduct = async(e)=> { 
-    
-        
-       
-    
+
           try {
             const response = await axios.put(`${state.baseUrl}/updateStatus/${id}`,{
               status:age,
@@ -101,10 +98,14 @@ const OrderCard = ({ title,
     <div style={{flex:"1 1 100px"}}>
 <Box sx={{display:"flex",flexDirection:"column", width: '100%', maxWidth:{ lg:350,xs:300,sm:350},
     bgcolor: 'white',p:1,borderRadius:"10px",color:"black",m:"1em"}}>
+
+{(state.user.isAdmin===false)?"":
 <Box sx={{display:"flex",justifyContent:"right"}}>
 <EditIcon onClick={editTasks} />
-<DeleteIcon onClick={deleteTasks}/> 
+<DeleteIcon onClick={deleteTasks}/>
 </Box>
+}
+
       <Typography  gutterBottom variant="h5" component="div">
           {title}
               
@@ -155,7 +156,7 @@ const OrderCard = ({ title,
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={age}
-         
+          disabled={(isExpired)?true:false}
           onChange={handleChange}
         >
           <MenuItem value={"Complete"}>Complete</MenuItem>

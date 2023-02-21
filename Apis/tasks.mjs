@@ -1,12 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import { tasksModel,userModel} from '../dbRepo/model.mjs'
+import moment from 'moment'
 
-import jwt from 'jsonwebtoken';
-
-
-
-// import path from 'path'
 
 
 
@@ -101,33 +97,56 @@ router.get('/tasks',async (req, res) => {
         const userId = new mongoose.Types.ObjectId(req.body.token._id);
         console.log(userId)
         
-        const verifyTasks=  await tasksModel.find(
-                { owner: userId
-                    // , isDeleted: false 
-                    }, {},{
-                    sort: { "_id": -1 },
-                    limit: 100,
-                    skip: 0
-                })
-    console.log(verifyTasks)
+        const verifyTasks=  await tasksModel.find()
+    console.log(verifyTasks,"45")
     if(!verifyTasks) throw new Error("server error")
-    
-    const dueDate = moment(verifyTasks.dueDate);
-     const optCreatedTime = moment(verifyTasks.createdOn);
-     const diffInMinutes = dueDate.diff(optCreatedTime, "minutes")
+    const now = moment();
+   let diff = 0
+    verifyTasks.forEach(async(element ) =>  {
+        diff =   now.diff(element.dueDate, "days")
+        
+        if(diff >0 &&  element.isExpired === false ) {
+         
+      await  tasksModel.findByIdAndUpdate(element._id,
+             { isExpired : true },
+             { new: true }).exec()
+          
+        }else{
+            console.log("ok")
+        }
+       
+});
+
+//     verifyTasks.map(element => (
+//         const diffInMinutes  =  now.diff(element.dueDate, "days")
+// ));
+
+
+
+   
+    //  const dueDate = moment('2023-02-16');
+    //  console.log(verifyTasks.dueDate)
+    //  console.log(now)
+     
                         
-    console.log("diffInMinutes: ", diffInMinutes);
-    let data = await userModel.findByIdAndUpdate(verifyTasks._id,{
-        isExpired: true,
-    
-    },
-    { new: true }).exec()
-    if (diffInMinutes >0) throw new Error("Tasks Expired")
-    
-                res.send({
+   
+    // let data = await userModel.findByIdAndUpdate(verifyTasks._id,{
+    //     isExpired: true,
+//     var a = moment([2007, 0, 29]);
+//     var b = moment([2007, 0, 28]);
+//      // 1
+// let c= a.diff(b, 'days') // 
+// console.log(c,"c")
+    // },
+    // { new: true }).exec()
+    // if (diffInMinutes >0) throw new Error("Tasks Expired")
+    // if (verifyTasks.status === "Complete") throw new Error("You can only submit one Time")
+                
+    res.send({
                     message: "got all tasks successfully",
                     data: verifyTasks
                 })
+                return;
     } catch (error) {
         res.status(500).send({
             message: error.message

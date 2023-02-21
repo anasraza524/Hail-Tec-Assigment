@@ -276,7 +276,7 @@ className="hover-underline-animation"
 }
            />
            <Typography variant="span">
-            {state.user.firstName
+            {state.user.fullName
 }</Typography>
          </UserBox> 
        </StyledToolbar>
