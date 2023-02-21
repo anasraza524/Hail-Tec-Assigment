@@ -17,9 +17,7 @@ import ResetPassword from "./Pages/Auth/ResetPassword";
 import { GlobalContext } from './Context/Context';
 import AddNewItem from "./Pages/AddNewItem";
 
-import { style } from "@mui/system";
-import AddToProduct from "./Pages/AddToProduct";
-import UserOrderDetail from "./Pages/UserOrderDetail";
+
 function App() {
   let { state, dispatch } = useContext(GlobalContext);
 
@@ -123,7 +121,7 @@ console.log(state.isLogin)
 
 
   return (
-    <div  >
+    <div style={{backgroundColor:"#60e0d9"}} >
 
 {/* <Custome/> */}
      {/* Auth State */}
@@ -149,16 +147,15 @@ console.log(state.isLogin)
  {/* Main State */}
 {(state.isLogin===true && state.user.isAdmin===false )?
 <div>
-<Nav LogoutHandle={LogoutHandle} /> 
+<Nav   LogoutHandle={LogoutHandle} /> 
 
  <Routes>
 
      <Route path="/" element={<HomeUser />}/>
-     <Route path="AddToProduct" element={<AddToProduct/>} />
-     <Route path="UserOrderDetail" element={<UserOrderDetail/>} />
+    
      <Route path="*" element={<Navigate to="/" replace={true} />} />
      </Routes> 
-     {/* <StickyFooter/> */}
+     <StickyFooter/>
      </div>:null}
 
  {/* Admin State */}
@@ -175,7 +172,7 @@ console.log(state.isLogin)
 
      <Route path="*" element={<Navigate to="/" replace={true} />} />
      </Routes> 
-     {/* <StickyFooter/> */}
+     <StickyFooter/>
      </div>:null}
 
 

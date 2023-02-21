@@ -15,7 +15,7 @@ import moment from 'moment'
       console.log(TotalUser)
       const TotalTasks = await  tasksModel.countDocuments();
       console.log(TotalTasks)
-      const TotalTasksPending = await  tasksModel.count({status:"pending"});
+      const TotalTasksPending = await  tasksModel.count({status:"Pending"});
       console.log("TotalTasksPending",TotalTasksPending)     
       const TotalTasksComplete = await  tasksModel.count({status:"Complete"});
       console.log("TotalTasksComplete",TotalTasksComplete)

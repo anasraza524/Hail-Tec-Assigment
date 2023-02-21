@@ -11,7 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import { GlobalContext } from '../Context/Context';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-
+import { Link} from 'react-scroll'
 const OrderCard = ({ title,
   description,
   status,
@@ -77,6 +77,9 @@ const OrderCard = ({ title,
 
 {(state.user.isAdmin===false)?"":
 <Box sx={{display:"flex",justifyContent:"right"}}>
+<Link activeClass="active" to="test1" spy={true} smooth={true} offset={50} duration={500} >
+
+      
 <EditIcon onClick={()=>{
 
 setEditing({
@@ -87,7 +90,7 @@ setEditing({
  })
 
 
-}} />
+}} />  </Link>
 <DeleteIcon onClick={deleteTasks}/>
 </Box>
 }
@@ -122,8 +125,8 @@ setEditing({
           
         <Box sx={{display:'flex',justifyContent:"space-between"}}>
             <Typography color={(!isExpired)?"black":"red"} gutterBottom variant="h7" component="div">
-            Due Date
-              
+
+            {(!isExpired)?"Due Date":"Expired"}
             </Typography>
             <Typography color={(!isExpired)?"black":"red"} gutterBottom variant="h7" component="div">
           {dueDate}

@@ -171,9 +171,7 @@ theme="light"
         aria-labelledby="responsive-dialog-title"
       >
          <DialogTitle dividers="true" >
-         <Avatar sx={{ m: 1,p:4, bgcolor: 'skyblue' }}>
-         SMIT
-        </Avatar>
+
         <Typography sx={{fontSize:{xs:"26px"},display:'flex',flexDirection:"column",alignItems:"center"}} variant='h4'>
           Work on Line
        
@@ -260,9 +258,7 @@ theme="light"
         
         /> */}
           <span style={{display:"flex",alignItems:"center"}}>
-            <Avatar sx={{ m: 1,p:4, bgcolor: 'skyblue' }}>
-          <LocalMallIcon style={{fontSize:"40px"}} />
-        </Avatar>
+  
         <Typography  variant="h6"
           sx={{ 
           display: { xs: "" },color:"white",fontSize:"60px",fontFamily:"sans-serif" }}>

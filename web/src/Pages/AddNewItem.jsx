@@ -105,7 +105,13 @@ const AddNewItem = () => {
   
    
        console.log(response)
+      setEditing( {
+        editingId:null,
+        editingTitle:"",
+        editingDescription:"",
+        editingDueDate:"",
     
+          })
         
   
       } catch (error) {
@@ -115,85 +121,92 @@ const AddNewItem = () => {
     }
   return (
     <div
+    style={{marginBottom:"4em"}}
+    id='test1'
    >
-<Paper elevation={5} sx={{display:"flex",
- minWidth: 120,
-flexDirection:"column",justifyContent:"center",
-alignItems:"center"}}>
-      <form style={{ padding:"2em",margin: '5px',border:" 1px gray solid ",
-      borderRadius:"2em"
-      ,marginBottom: "3em",marginTop:"2em" }} onSubmit={submitHandler} >
-
-
-<Typography variant="h4" sx={{ mb: 5 }}>
-          Add Task
-        </Typography>
-
-        
-        <br /><br />
-        
-        <TextField
-
-sx={{ pl: 3, pr: 5, width: { lg: "550px", sm: "550px", xs: "370px" } }}
-size="medium"
-type="text" placeholder="Enter your Item Title" required
-id='title' name='title'
->
-</TextField><br /><br />
-
-      
-
- 
-        <TextField
-          sx={{ pl: 3, pr: 5, width: { lg: "550px", sm: "550px", xs: "370px" } }}
-          id='description' name='description'
-          placeholder="Enter your Item Description"
-          multiline
-          rows={4}
-         
-        />
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography
-            sx={{ ml: 1, p: 3 }}
-          >
-            Due Date
-          </Typography>
-
-          <TextField
-id='dueDate' name='dueDate'
-         
-            variant="filled"
-            size="small"
-            type="date"
-            
-          />
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          
-        </Box>
-
-
-
-
-        <Button fullWidth  type="submit" variant="contained">Add Task </Button>
-
-        {(!error) ? "" : <p style={{ paddingLeft: "35px", color: "red", display: "flex" }}>
-          {/* <ErrorIcon/> */}
-          <p style={{ marginLeft: "10px" }}>{error}</p></p>}
-        {/* {(fileUpload && !storageURL === "")?
-        <Button sx={{ml:10}} type="submit" variant="outlined">Add Product </Button>
-      : 
-      <Button disabled sx={{ml:10}} type="submit" variant="outlined">Add Product </Button>
-      } */}
-
-      </form>
-      </Paper>
-
+    {(!editing.editingDueDate && !editing.editingDescription
+      && !editing.editingTitle && !editing.editingId
+      )?
       <Paper elevation={5} sx={{display:"flex",
+      minWidth: 120,
+     flexDirection:"column",justifyContent:"center",
+     alignItems:"center"}}>
+           <form style={{ padding:"2em",margin: '5px',border:" 1px gray solid ",
+           borderRadius:"2em"
+           ,marginBottom: "3em",marginTop:"2em" }} onSubmit={submitHandler} >
+     
+     
+     <Typography  variant="h4" sx={{ mb: 5 }}>
+               Add Task
+             </Typography>
+     
+             
+             <br /><br />
+             
+             <TextField
+     
+     sx={{ pl: 3, pr: 5, width: { lg: "550px", sm: "550px", xs: "370px" } }}
+     size="medium"
+     type="text" placeholder="Enter your Item Title" required
+     id='title' name='title'
+     >
+     </TextField><br /><br />
+     
+           
+     
+      
+             <TextField
+               sx={{ pl: 3, pr: 5, width: { lg: "550px", sm: "550px", xs: "370px" } }}
+               id='description' name='description'
+               placeholder="Enter your Item Description"
+               multiline
+               rows={4}
+              
+             />
+             <Box sx={{ display: "flex", alignItems: "center" }}>
+               <Typography
+                 sx={{ ml: 1, p: 3 }}
+               >
+                 Due Date
+               </Typography>
+     
+               <TextField
+     id='dueDate' name='dueDate'
+              
+                 variant="filled"
+                 size="small"
+                 type="date"
+                 
+               />
+             </Box>
+             <Box sx={{ display: "flex", alignItems: "center" }}>
+               
+             </Box>
+     
+     
+     
+     
+             <Button fullWidth  type="submit" variant="contained">Add Task </Button>
+     
+             {(!error) ? "" : <p style={{ paddingLeft: "35px", color: "red", display: "flex" }}>
+               {/* <ErrorIcon/> */}
+               <p style={{ marginLeft: "10px" }}>{error}</p></p>}
+             {/* {(fileUpload && !storageURL === "")?
+             <Button sx={{ml:10}} type="submit" variant="outlined">Add Product </Button>
+           : 
+           <Button disabled sx={{ml:10}} type="submit" variant="outlined">Add Product </Button>
+           } */}
+     
+           </form>
+           </Paper>
+
+:
+      <Paper
+       elevation={5} sx={{display:"flex",
  minWidth: 120,
 flexDirection:"column",justifyContent:"center",
 alignItems:"center"}}>
-      <form style={{ padding:"2em",margin: '5px',border:" 1px gray solid ",
+      <form  style={{ padding:"2em",margin: '5px',border:" 1px gray solid ",
       borderRadius:"2em"
       ,marginBottom: "3em",marginTop:"2em" }} onSubmit={editTasks} >
 
@@ -211,8 +224,7 @@ sx={{ pl: 3, pr: 5, width: { lg: "550px", sm: "550px", xs: "370px" } }}
 
 placeholder="Enter your Item Title"
 
-defaultValue={editing.editingTitle
-}
+value={editing.editingTitle}
           onChange={(e) => {
             setEditing({
               ...editing,
@@ -266,7 +278,7 @@ defaultValue={editing.editingTitle
 
 
 
-        <Button fullWidth  type="submit" variant="contained">Add Task </Button>
+        <Button fullWidth  type="submit" variant="contained">Update Task </Button>
 
         {(!error) ? "" : <p style={{ paddingLeft: "35px", color: "red", display: "flex" }}>
           {/* <ErrorIcon/> */}
@@ -278,7 +290,7 @@ defaultValue={editing.editingTitle
       } */}
 
       </form>
-      </Paper>
+      </Paper>}
       <Typography variant="h4" sx={{ m: 5 }}>
           All Tasks
         </Typography>

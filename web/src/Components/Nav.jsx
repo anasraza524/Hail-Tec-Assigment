@@ -100,10 +100,10 @@ const [loadProduct, setLoadProduct] = useState(false)
 
 
    return (
-     <AppBar position="sticky" >
+     <AppBar  position="sticky" >
 
        <StyledToolbar sx={{backgroundColor:"#7ceaa4", color:"white"}}>
-       <Box   sx={{display:{lg:'none',sm:'none'},
+       <Box  sx={{display:{lg:'none',sm:'none'},
       backgroundColor:"#7ceaa4", color:"white"}} onClick={toggleDrawer}><DragHandle/></Box >
            <Drawer
            

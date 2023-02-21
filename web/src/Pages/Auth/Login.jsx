@@ -180,9 +180,7 @@ theme="light"
           }}
         >
            <span style={{display:"flex",alignItems:"center"}}>
-            <Avatar sx={{ m: 1,p:4, bgcolor: 'skyblue' }}>
-         SMIT
-        </Avatar>
+
         <Typography  variant="h6"
           sx={{ 
           display: { xs: "" },color:"white",fontSize:"30px",fontFamily:"sans-serif" }}>

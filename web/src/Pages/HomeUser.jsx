@@ -46,7 +46,7 @@ const HomeUser = () => {
 
   return (
   
-         <div style={{marginTop:"10px",padding:"1em"}}>
+         <div style={{marginTop:"10px",padding:"1em",marginBottom:"4em"}}>
 <Typography variant="h4" sx={{ mb: 5 }}>
           Hi {state.user.fullName}, Welcome back
         </Typography>
