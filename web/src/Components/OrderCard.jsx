@@ -15,7 +15,7 @@ import EditIcon from '@mui/icons-material/Edit';
 const OrderCard = ({ title,
   description,
   status,
-  dueDate,id,isExpired
+  dueDate,id,isExpired,setEditing,editing
 }) => {
     const [age, setAge] = React.useState('');
 // console.log(age,id)
@@ -63,31 +63,7 @@ const OrderCard = ({ title,
           }
         }
 
-        const  editTasks = async(e)=> { 
-    
-        
-       
-    
-          try {
-            const response = await axios.put(`${state.baseUrl}/task/${id}`,{
-              // title:,
-              // description:,
-              // dueDate:,
-             
-            },{withCredentials:true})
-           
 
-      
-       
-           
-        
-            setLoadProduct(!loadProduct)
-      
-          } catch (error) {
-       
-            console.log("error in Updating all products", error);
-          }
-        }
 
 
         const handleChange = (event) => {
@@ -101,7 +77,17 @@ const OrderCard = ({ title,
 
 {(state.user.isAdmin===false)?"":
 <Box sx={{display:"flex",justifyContent:"right"}}>
-<EditIcon onClick={editTasks} />
+<EditIcon onClick={()=>{
+
+setEditing({
+  editingId:id,
+  editingTitle:title,
+  editingDescription:description
+  ,editingDueDate:dueDate,
+ })
+
+
+}} />
 <DeleteIcon onClick={deleteTasks}/>
 </Box>
 }

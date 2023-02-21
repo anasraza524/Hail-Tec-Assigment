@@ -76,7 +76,7 @@ const getTasksInfo = async () => {
   return (
     <div style={{marginTop:"10px",padding:"1em"}}>
 <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Hi {state.user.fullName}, Welcome back
         </Typography>
 <Grid container spacing={3} sx={{p:3,display:"flex",}}>
 <Grid item xs={12}  sm={6} md={3} >
