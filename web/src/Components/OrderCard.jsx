@@ -155,7 +155,7 @@ setEditing({
       </FormControl>
       
     </Box>
-    <Button sx={{mt:2}} onClick={editProduct} variant='contained'>Update</Button>
+    <Button sx={{mt:2}} disabled={(isExpired)?true:false} onClick={editProduct} variant='contained'>Update</Button>
       </Box>
      
 
